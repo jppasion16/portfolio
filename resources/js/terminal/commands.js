@@ -89,7 +89,10 @@ export function commands({ history, addOutput, loading }) {
       }
       appStore.terminalMode = "login";
     },
-    logout: () => (appStore.token = ""),
+    logout: () => {
+      appStore.token = "";
+      localStorage.removeItem("token");
+    },
     ls,
     list: ls,
     show: (target, id = null) => {
