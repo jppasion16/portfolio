@@ -11,9 +11,15 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Message::orderBy('id', 'desc')->cursorPaginate(10));
+        $limit = $this->validatedLimit($request) ?? 10;
+        $messages = Message::orderBy('id', 'desc')->limit($limit)->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $messages
+        ]);
     }
 
     /**

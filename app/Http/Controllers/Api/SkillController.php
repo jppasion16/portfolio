@@ -12,11 +12,13 @@ class SkillController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $this->validatedLimit($request);
         $skill = Cache::remember('skills.index', now()->addHour(), function () {
             return Skill::orderBy('order')->get()->toArray();
         });
+        $skill = $this->limitItems($skill, $limit);
 
         return response()->json([
             'success' => true,

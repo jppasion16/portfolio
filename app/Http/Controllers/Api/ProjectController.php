@@ -12,11 +12,13 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $this->validatedLimit($request);
         $projects = Cache::remember('projects.index', now()->addHour(), function () {
             return Project::latest()->get()->toArray();
         });
+        $projects = $this->limitItems($projects, $limit);
 
         return response()->json([
             'success' => true,

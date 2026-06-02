@@ -12,11 +12,13 @@ class ServiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $this->validatedLimit($request);
         $services = Cache::remember('services.index', now()->addHour(), function () {
             return Service::get()->toArray();
         });
+        $services = $this->limitItems($services, $limit);
 
         return response()->json([
             'success' => true,

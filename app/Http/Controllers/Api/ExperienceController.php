@@ -12,11 +12,13 @@ class ExperienceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $this->validatedLimit($request);
         $experiences = Cache::remember('experiences.index', now()->addHour(), function () {
             return Experience::latest()->get()->toArray();
         });
+        $experiences = $this->limitItems($experiences, $limit);
 
         return response()->json([
             'success' => true,
