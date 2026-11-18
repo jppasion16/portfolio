@@ -15,8 +15,8 @@ class PortfolioSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'John Paul Pasion',
-            'email' => 'jp.pasion16@gmail.com',
+            'name' => 'Sample Name Abc',
+            'email' => 'sample_email@site.com',
             'password' => Hash::make('Admin123!'),
         ]);
     }
